@@ -19,7 +19,7 @@ while True:
     try:
         print (sys.stderr, 'connection from', client_address)
 
-        # Receive the data in small chunks and retransmit it
+        # Recibir datos y retransmitirlos
         while True:
             data = connection.recv(16)
             print (sys.stderr, 'received "%s"' % data)
@@ -31,5 +31,5 @@ while True:
                 break
             
     finally:
-        # Clean up the connection
+        # cerrar coneccion
         connection.close()
