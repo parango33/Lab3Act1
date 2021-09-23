@@ -1,6 +1,7 @@
 import socket
 import sys
-
+import os 
+import hashlib
 # Crear socket tcp/ip
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -10,9 +11,15 @@ print(sys.stderr, 'starting up on %s port %s' % server_address)
 sock.bind(server_address)
 
 #archivo a transmitir
-#filename = "archivo.txt"
-#tamano_archivo = os.path.getsize(filename)
+filename = "archivo.txt"
+tamano_archivo = os.path.getsize(filename)
 
+bytes_read = "oe"
+f = open(filename,'rb')
+l = f.read(1024)
+hashmd5 = hashlib.md5() 
+
+hashmd5.update(l.decode("utf-8").encode())
 
 # Listen for incoming connections
 sock.listen(1)
@@ -31,6 +38,8 @@ while True:
             if data:
                 print (sys.stderr, 'sending data back to the client')
                 connection.sendall(data)
+                print(hashmd5.hexdigest())
+                connection.sendall(bytes(hashmd5.hexdigest(), 'utf-8'))
             else:
                 print (sys.stderr, 'no more data from', client_address)
                 break

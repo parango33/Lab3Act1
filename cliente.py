@@ -1,5 +1,6 @@
 import socket
 import sys
+import hashlib
 
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -21,9 +22,12 @@ try:
     amount_expected = len(message)
     
     while amount_received < amount_expected:
-        data = sock.recv(16)
-        amount_received += len(data)
-        print (sys.stderr, 'Recibido "%s"' % data)
+        try:
+            data = sock.recv(16)
+            amount_received += len(data)
+            print (sys.stderr, 'Recibido "%s"' % data)
+        finally:
+            print("error")
 
 finally:
     print (sys.stderr, 'Cerrar socket')
