@@ -1,13 +1,18 @@
 import socket
 import sys
 
-# Create a TCP/IP socket
+# Crear socket tcp/ip
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-# Bind the socket to the port
+# conectar socket al puerto
 server_address = ('localhost', 10000)
 print(sys.stderr, 'starting up on %s port %s' % server_address)
 sock.bind(server_address)
+
+#archivo a transmitir
+#filename = "archivo.txt"
+#tamano_archivo = os.path.getsize(filename)
+
 
 # Listen for incoming connections
 sock.listen(1)
