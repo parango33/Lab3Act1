@@ -11,16 +11,15 @@ print(sys.stderr, 'starting up on %s port %s' % server_address)
 sock.bind(server_address)
 
 #archivo a transmitir
-filename = "archivo.txt"
+filename = "100mb.txt"
 tamano_archivo = os.path.getsize(filename)
 
-bytes_read = "oe"
+#Leemos la primera linea del archivo 
 f = open(filename,'rb')
 l = f.read(1024)
-hashmd5 = hashlib.md5() 
 
-hashmd5.update(l.decode("utf-8").encode())
-
+#Saca el hash del archivo
+md5 = hashlib.md5()     
 # Listen for incoming connections
 sock.listen(1)
 
@@ -30,19 +29,26 @@ while True:
     connection, client_address = sock.accept()
     try:
         print (sys.stderr, 'connection from', client_address)
-
+        data = connection.recv(32)
+        connection.sendall(b'ok')
+        data = connection.recv(32)
+        print(data.decode('utf-8'))
         # Recibir datos y retransmitirlos
-        while True:
-            data = connection.recv(16)
-            print (sys.stderr, 'received "%s"' % data)
-            if data:
-                print (sys.stderr, 'sending data back to the client')
-                connection.sendall(data)
-                print(hashmd5.hexdigest())
-                connection.sendall(bytes(hashmd5.hexdigest(), 'utf-8'))
-            else:
-                print (sys.stderr, 'no more data from', client_address)
-                break
+        if(data.decode('utf-8')== "listo"):
+            #Enviamos linea por linea el archivo
+            while (l):
+                connection.send(l)
+                md5.update(l)
+                l= f.read(1024)
+            
+            #Enviamos el hash
+            confirmacionArchivo = connection.recv(32)
+            print(confirmacionArchivo.decode('utf-8'))
+            #if(confirmacionArchivo.decode('utf-8')== "Archivo leido"):
+               # connection.send(bytes(md5.hexdigest(), 'utf-8'))
+            print("MD5: {0}".format(md5.hexdigest())) 
+            
+        
             
     finally:
         # cerrar coneccion
