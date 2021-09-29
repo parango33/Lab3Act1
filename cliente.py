@@ -1,6 +1,7 @@
 import socket
 import sys
 import hashlib
+import os
 
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -9,6 +10,7 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_address = ('localhost', 10000)
 print(sys.stderr, 'connecting to %s port %s' % server_address)
 sock.connect(server_address)
+file = open("./archivosRecibidos/Cliente1-prueba-1.txt", "w")
 
 try:
     
@@ -26,26 +28,34 @@ try:
     md5 = hashlib.md5()
     if(confirmacion.decode('utf-8') == "ok"):
         sock.sendall(b'listo')
-        hash = ""
+        hash = sock.recv(32)
+        print(hash.decode('utf-8'))
+        sock.sendall(b'Hash recibido')
         while True:
             data = sock.recv(1024)
             
             if data:
                 try:
+                    file.write(data.decode('utf-8') + os.linesep)
                     md5.update(data)
                     
                 except:
-                    print("Error")
+                    print("Error") 
 
                 
             else:
                 print (sys.stderr, 'Termino de leer el archivo')
                 break
-        sock.connect(server_address)
+        file.close()
         sock.sendall(b'Archivo leido')
         print("MD5: {0}".format(md5.hexdigest()))  
         #hash = sock.recv(1024) 
-        #print(hash.decode('utf-8'))       
+        print(hash.decode('utf-8')) 
+        if(hash.decode('utf-8') == md5.hexdigest()):
+            print("Archivo leido enviado correctamente")
+        else:
+            print("hubo un error al momento de leer el archivoÑ")
+
 finally:
     print (sys.stderr, 'Cerrar socket')
     sock.close()

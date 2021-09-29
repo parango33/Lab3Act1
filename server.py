@@ -2,8 +2,12 @@ import socket
 import sys
 import os 
 import hashlib
+import datetime
 # Crear socket tcp/ip
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+#Creación del Log
+log = open("./"+datetime.today().strftime('%Y-%m-%d-%H:%M:%S')+"./txt", "w")
 
 # conectar socket al puerto
 server_address = ('localhost', 10000)
@@ -18,8 +22,17 @@ tamano_archivo = os.path.getsize(filename)
 f = open(filename,'rb')
 l = f.read(1024)
 
+
+archivo = open(filename, 'rb')
+buf = archivo.read(1024)
+md5 = hashlib.md5() 
+
+while(buf):
+    md5.update(buf)
+    buf = archivo.read(1024)
+
 #Saca el hash del archivo
-md5 = hashlib.md5()     
+    
 # Listen for incoming connections
 sock.listen(1)
 
@@ -35,15 +48,19 @@ while True:
         print(data.decode('utf-8'))
         # Recibir datos y retransmitirlos
         if(data.decode('utf-8')== "listo"):
+            connection.sendall(bytes(md5.hexdigest(), 'utf-8'))
             #Enviamos linea por linea el archivo
-            while (l):
-                connection.send(l)
-                md5.update(l)
-                l= f.read(1024)
+            recibido = connection.recv(32)
+            if(recibido.decode('utf-8') == 'Hash recibido'):
+                while (l):
+                    connection.send(l) 
+                    l= f.read(1024)
             
-            #Enviamos el hash
-            confirmacionArchivo = connection.recv(32)
-            print(confirmacionArchivo.decode('utf-8'))
+                connection.send(l)
+            #Enviamos el hashÑ
+            
+           # confirmacionArchivo = connection.recv(32)
+           # print(confirmacionArchivo.decode('utf-8'))
             #if(confirmacionArchivo.decode('utf-8')== "Archivo leido"):
                # connection.send(bytes(md5.hexdigest(), 'utf-8'))
             print("MD5: {0}".format(md5.hexdigest())) 
