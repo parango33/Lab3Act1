@@ -2,12 +2,12 @@ import socket
 import sys
 import os 
 import hashlib
-import datetime
+from datetime import datetime
 # Crear socket tcp/ip
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 #Creación del Log
-log = open("./"+datetime.today().strftime('%Y-%m-%d-%H:%M:%S')+"./txt", "w")
+#log = open('./'+datetime.today().strftime('%Y-%m-%d-%H:%M:%S')+".txt", "w")
 
 # conectar socket al puerto
 server_address = ('localhost', 10000)
@@ -34,7 +34,7 @@ while(buf):
 #Saca el hash del archivo
     
 # Listen for incoming connections
-sock.listen(1)
+sock.listen(10)
 
 while True:
     # Espera por una conexion
