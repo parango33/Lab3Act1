@@ -5,7 +5,11 @@ import os
 import threading
 from datetime import datetime
 
-NUM_CLIENTES = 5
+num_clientes = int(input('Ingrese la cantidad de clientes que quiere crear'))
+
+while (num_clientes>25 & num_clientes <= 0):
+    num_clientes = int(input('Ingrese un número válido de clientes'))
+
 
 #Creación del Log
 #log = open("./"+datetime.today().strftime('%Y-%m-%d-%H:%M:%S')+"./txt", "w")
@@ -79,8 +83,8 @@ def worker(c):
         c.cliente_funct()
         
 hilo=Ejecucion()
-for num_cliente in range(NUM_CLIENTES):
-    cliente = threading.Thread(name="Cliente%s" %num_cliente,
+for num_cliente in range(num_clientes):
+    cliente = threading.Thread(name="Cliente%s" %(num_cliente+1),
                                target=worker,
                                args=(hilo,)
                               )
