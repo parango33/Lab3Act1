@@ -7,7 +7,6 @@ from datetime import datetime
 import time
 
 num_clientes = int(input('Ingrese la cantidad de clientes que quiere crear'))
-barrier= threading.Barrier(num_clientes)
 while (num_clientes>25 and num_clientes <= 0):
     num_clientes = int(input('Ingrese un número válido de clientes'))
 
@@ -105,7 +104,6 @@ class Ejecucion:
         finally:
             print (sys.stderr, 'Cerrar socket')
             sock.close()
-            barrier.wait(num_clientes)
             log.close()
             
           
