@@ -1,0 +1,7 @@
+100mb.txt
+100mb.txt
+1.051648
+Cliente1
+Entrega del archivo exitosa
+0.019985437393188477
+1051648

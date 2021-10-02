@@ -8,7 +8,7 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 num_conexiones = int(input('Ingrese la cantidad de conexiones que quiere atender'))
 
-while int num_conexiones>25 & num_conexiones <= 0:
+while (num_conexiones>25 and num_conexiones <= 0):
     num_conexiones = int(input('Ingrese un número válido de conexiones'))
 
 
@@ -59,12 +59,16 @@ for i in range(num_conexiones):
             
         connection.sendall(b'ok')
         
+        connection.recv(32)
+        connection.sendall(bytes(filename, 'utf-8'))
+        
         data = connection.recv(32)
         
         print(data.decode('utf-8'))
         # Recibir datos y retransmitirlos
        
         if(data.decode('utf-8')== "listo"):
+            
             connection.sendall(bytes(md5.hexdigest(), 'utf-8'))
             #Enviamos linea por linea el archivo
             recibido = connection.recv(32)
