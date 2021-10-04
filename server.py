@@ -79,12 +79,12 @@ for i in range(num_conexiones):
             
                 connection.send(l)
             #Enviamos el hashÑ
-            
-           # confirmacionArchivo = connection.recv(32)
-           # print(confirmacionArchivo.decode('utf-8'))
-            #if(confirmacionArchivo.decode('utf-8')== "Archivo leido"):
-               # connection.send(bytes(md5.hexdigest(), 'utf-8'))
-            print("MD5: {0}".format(md5.hexdigest())) 
+                #confirmacionArchivo = connection.recv(32)
+                #print(confirmacionArchivo.decode('utf-8'))
+                #if(confirmacionArchivo.decode('utf-8')== "Entrega del archivo exitosa"):
+                print('Conexión terminada exitosamente')
+                #else:
+                 #   print('Conexión terminada con error')
             
         
             
