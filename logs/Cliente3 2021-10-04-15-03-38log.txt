@@ -1,7 +1,0 @@
-El nombre del archivo es: 100mb.txt
-El tamaño del archivo es: 1.051648
-El nombre del cliente es: Cliente3
-Entrega del archivo exitosa
-Tiempo de transferencia: 0.08377599716186523
-Cantidad de paquetes recibidos: 1024
-Valor total en bytes recibidos: 1051648
