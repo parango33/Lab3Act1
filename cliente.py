@@ -99,7 +99,7 @@ class Ejecucion:
                 else:
                     print("hubo un error al momento de leer el archivo")
                     log.write('Entrega del archivo no exitosa'+'\n')
-                log.write('Tiempo de transferencia: '+str(end-start)+ ' ms'+'\n')    
+                log.write('Tiempo de transferencia: '+str(end-start)+ ' segs'+'\n')    
                 log.write('Cantidad de paquetes recibidos: '+str(num_paquetes)+'\n') 
                 log.write('Valor total en bytes recibidos: '+str(tamano)+'\n')  
                 
