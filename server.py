@@ -17,7 +17,7 @@ while (num_conexiones>25 and num_conexiones <= 0):
 #log = open('./'+datetime.today().strftime('%Y-%m-%d-%H:%M:%S')+".txt", "w")
 
 # conectar socket al puerto
-server_address = ('localhost', 10000)
+server_address = ('localhost', 8888)
 print(sys.stderr, 'starting up on %s port %s' % server_address)
 sock.bind(server_address)
 
